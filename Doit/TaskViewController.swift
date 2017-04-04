@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  TaskViewController.swift
 //  Doit
 //
 //  Created by Karthik Thirunavukkarasan on 4/3/17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
+class TaskViewController: UIViewController, UITableViewDelegate, UITableViewDataSource{
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -41,6 +41,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let task = tasks[indexPath.row]
+        performSegue(withIdentifier: "selectTaskSegue", sender: tasks)
+    }
+    
     func makeTask()-> [Task]{
         let task1 = Task()
         task1.name = "Go for Run"
@@ -60,6 +65,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBAction func pluseTapped(_ sender: Any) {
         performSegue(withIdentifier: "addSegue", sender: nil)
         
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let nextVC = segue.destination as! CreateViewController
+        nextVC.previousVC = self
     }
 
 }
